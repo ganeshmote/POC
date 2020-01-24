@@ -1,0 +1,80 @@
+{% load static %}
+
+<html>
+<head>
+      <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: lightgray;
+        }
+        table.gridtable th {
+            border-width: 1px;
+            border-style: solid;
+            border-color: #666666;
+	}
+    </style>
+  <title>RSS Feed Table</title>
+    <link rel="stylesheet" href="{% static 'css/Process_rss.css' %}">
+</head>
+<body>
+    <table width="400px" style="table-layout:fixed;" class="gridtable" id="Select-b">
+<!--  <thead>-->
+    <tr>
+        <th width="30px">id</th>
+       <th width="30px">Title</th>
+       <th width="30px">Link</th>
+       <th width="30px">Publish_date</th>
+       <th width="30px">Description</th>
+       <th width="30px">View Data</th>
+    </tr>
+<!--  </thead>-->
+<!--  <tbody>-->
+    {% for user in page_obj %}
+      <tr>
+        <td id="appadd">{{ user.id }}</td>
+        <td id="appadd">{{ user.Title }}</td>
+        <td id="appadd">{{ user.Link }}</td>
+        <td id="appadd">{{ user.Publish_date }}</td>
+        <td id="appadd">{{ user.Description }}</td>
+          <td id="appadd"><button class="btn btn-primary"> <a href="{% url 'rss_details' user.id %}">View Details</a></button></td>
+
+
+      </tr>
+    {% endfor %}
+<!--  </tbody>-->
+</table>
+</body>
+</html>
+
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <button class="btn btn-primary"> <a href="?page=1">&laquo; first</a></button>
+        <button class="btn btn-primary"> <a href="?page={{ page_obj.previous_page_number }}">previous</a></button>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+<!--            <a href="?page={{ page_obj.next_page_number }}">next</a><br>-->
+        <button class="btn btn-primary"> <a href="?page={{ page_obj.next_page_number }}">next</a></button>
+<!--        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a><br>-->
+        <button class="btn btn-primary"> <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></button>
+
+
+        {% endif %}
+    </span>
+</div><br>
+<button class="btn btn-danger"> <a href="logout/">Logout</a></button>
